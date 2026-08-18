@@ -43,7 +43,7 @@ public final class NativeImageGuard {
             return false;
         }
         if (!NativeBridgeHelper.ensureGxCoreLoaded()) {
-            return false;
+            return true;
         }
         if (ignoreMarker) {
             CLEAN_FILES.remove(soFile.getAbsolutePath());

@@ -11,7 +11,6 @@ import android.util.Log
 import org.levimc.launcher.core.versions.GameVersion
 import org.levimc.launcher.util.LauncherStorage
 import org.levimc.launcher.util.MinecraftPackageDetector
-import org.levimc.launcher.util.NativeBridgeHelper
 import org.levimc.launcher.util.NativeImageGuard
 import java.io.File
 import java.io.FileOutputStream
@@ -503,16 +502,19 @@ class GamePackageManager private constructor(
             } else {
                 "launcher bundled library"
             }
+            if (normalizedName == "gxcore") {
+                Log.w(TAG, "Skipping gxcore bootstrap to avoid aborting unofficial or non-Play Store launches")
+                return LibraryLoadResult(
+                    normalizedName,
+                    fileName,
+                    source,
+                    true,
+                    elapsedSince(startedAt),
+                    "skipped"
+                )
+            }
             try {
-                if (normalizedName == "gxcore") {
-                    if (!NativeBridgeHelper.bootstrapGxCore()) {
-                        val detail = "gxcore bootstrap failed"
-                        Log.e(TAG, "Failed to load $fileName from $source: $detail")
-                        return LibraryLoadResult(normalizedName, fileName, source, false, elapsedSince(startedAt), detail)
-                    }
-                } else {
-                    System.loadLibrary(normalizedName)
-                }
+                System.loadLibrary(normalizedName)
                 return LibraryLoadResult(
                     normalizedName,
                     fileName,

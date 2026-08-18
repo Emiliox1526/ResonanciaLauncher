@@ -12,9 +12,6 @@ import android.view.Gravity
 import org.levimc.launcher.R
 
 object NativeBridgeHelper {
-    @Volatile
-    private var gxcoreLoaded = false
-
     @JvmStatic
     fun getAppContext(): Context {
         return LauncherApplication.context
@@ -22,22 +19,7 @@ object NativeBridgeHelper {
 
     @JvmStatic
     fun ensureGxCoreLoaded(): Boolean {
-        if (gxcoreLoaded) {
-            return true
-        }
-        return synchronized(this) {
-            if (gxcoreLoaded) {
-                true
-            } else {
-                try {
-                    System.loadLibrary("gxcore")
-                    gxcoreLoaded = true
-                    true
-                } catch (_: Throwable) {
-                    false
-                }
-            }
-        }
+        return false
     }
 
     @JvmStatic
