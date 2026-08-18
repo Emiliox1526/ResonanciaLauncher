@@ -289,8 +289,8 @@ public class VersionProfileMetadataStore {
                     : packageName;
             String safeVersionName = isBlank(versionName) ? safePackageName : versionName;
             return new Defaults(
-                    LauncherStorage.INSTALLED_MINECRAFT_PROFILE_ID,
-                    LauncherStorage.INSTALLED_MINECRAFT_PROFILE_ID,
+                    safePackageName,
+                    safePackageName,
                     safeVersionName,
                     null,
                     false,

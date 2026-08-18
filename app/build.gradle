@@ -39,11 +39,11 @@ android {
     namespace 'org.levimc.launcher'
     compileSdkVersion 36
     defaultConfig {
-        applicationId "org.levimc.launcher"
+        applicationId "org.resonancia.launcher"
         minSdkVersion 28
         targetSdkVersion 35
         versionCode getVersionCodeByTimestamp()
-        versionName getGitTag()
+        versionName "1.0.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "CURSEFORGE_API_KEY", "\"${localProperties.getProperty('curseforge.api_key', '')}\""
         ndk {
@@ -71,15 +71,26 @@ android {
             assets.srcDirs += rootProject.file('resources')
         }
     }
+    signingConfigs {
+        release {
+            storeFile file("${System.getProperty('user.home')}/.android/debug.keystore")
+            storePassword "android"
+            keyAlias "androiddebugkey"
+            keyPassword "android"
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             firebaseCrashlytics {
-                nativeSymbolUploadEnabled true
+                mappingFileUploadEnabled false
+                nativeSymbolUploadEnabled false
             }
             ndk {
-                debugSymbolLevel 'FULL'
+                debugSymbolLevel 'NONE'
             }
             buildConfigField "boolean", "IS_BETA", "false"
         }
@@ -87,10 +98,11 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             firebaseCrashlytics {
-                nativeSymbolUploadEnabled true
+                mappingFileUploadEnabled false
+                nativeSymbolUploadEnabled false
             }
             ndk {
-                debugSymbolLevel 'FULL'
+                debugSymbolLevel 'NONE'
             }
             buildConfigField "boolean", "IS_BETA", "false"
         }
@@ -100,13 +112,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             firebaseCrashlytics {
                 mappingFileUploadEnabled false
-                nativeSymbolUploadEnabled true
+                nativeSymbolUploadEnabled false
             }
-            resValue "string", "app_name", "LeviLauncher Beta"
+            resValue "string", "app_name", "ResonanciaLauncher Beta"
             buildConfigField "boolean", "IS_BETA", "true"
             matchingFallbacks = ["release"]
             ndk {
-                debugSymbolLevel 'FULL'
+                debugSymbolLevel 'NONE'
             }
         }
 
@@ -135,7 +147,7 @@ android {
         }
     }
 
-    ndkVersion = "28.2.13676358"
+    ndkVersion = "27.3.13750724"
 }
 
 dependencies {

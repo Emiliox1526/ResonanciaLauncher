@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Common -->
-    <string name="app_name">LeviLauncher</string>
+    <string name="app_name">ResonanciaLauncher</string>
     <string name="minecraft">Minecraft</string>
     <string name="launch">Lancer</string>
     <string name="beta_badge">Bêta</string>
@@ -382,7 +382,7 @@ La migration doit être terminée avant de continuer avec LeviLauncher.</string>
     <string name="minecraft_playstore_required_message">Ce lanceur fonctionne uniquement avec l\'application officielle Minecraft du Google Play Store.</string>
     <string name="buy_minecraft">Obtenir Minecraft</string>
     <string name="minecraft_not_installed_title">Minecraft non installé</string>
-    <string name="minecraft_not_installed_message">Minecraft n\'est pas installé sur votre appareil. Veuillez l\'installer à partir du Google Play Store.</string>
+    <string name="minecraft_not_installed_message">Minecraft n\'est pas installé sur votre appareil. Installez-le ou importez un APK dans le lanceur.</string>
     <string name="install_minecraft">Installer Minecraft</string>
     <string name="genuine_badge_label">Licence non vérifiée</string>
     <string name="invalid_license_detected_toast">Minecraft non officiel détecté. Assurez-vous d\'avoir la version du Play Store.</string>

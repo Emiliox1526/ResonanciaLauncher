@@ -126,6 +126,9 @@ object NativeBridgeHelper {
     @JvmStatic
     fun showInvalidLicenseOverlay() {
         val ctx = getAppContext()
+        if (MinecraftPackageDetector.isMinecraftInstalled(ctx)) {
+            return
+        }
         try {
             val handler = Handler(Looper.getMainLooper())
             handler.post {

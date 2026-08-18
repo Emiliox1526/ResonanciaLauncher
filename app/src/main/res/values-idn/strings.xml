@@ -1,6 +1,6 @@
-<resources>
+﻿<resources>
     <!-- Common -->
-    <string name="app_name">LeviLauncher</string>
+    <string name="app_name">ResonanciaLauncher</string>
     <string name="minecraft">Minecraft</string>
     <string name="launch">Luncurkan</string>
     <string name="beta_badge">Beta</string>
@@ -339,7 +339,7 @@ Migrasi harus selesai sebelum LeviLauncher dapat melanjutkan.</string>
     <string name="minecraft_playstore_required_message">Peluncur ini hanya berfungsi dengan aplikasi Minecraft resmi dari Google Play Store. Silakan instal versi Play Store untuk melanjutkan.</string>
     <string name="buy_minecraft">Dapatkan Minecraft Di Play Store</string>
     <string name="minecraft_not_installed_title">Minecraft Belum Terinstal</string>
-    <string name="minecraft_not_installed_message">Minecraft belum terpasang di perangkat Anda. Silakan instal dari Google Play Store untuk menggunakan peluncur ini.</string>
+    <string name="minecraft_not_installed_message">Minecraft belum terpasang di perangkat Anda. Instal atau impor APK ke peluncur.</string>
     <string name="install_minecraft">Instal Minecraft</string>
     <string name="genuine_badge_label">Lisensi tidak ter-verifikasi</string>
     <string name="invalid_license_detected_toast">Minecraft palsu terdeteksi. Pastikan Minecraft Anda berasal dari Google Play Store.</string>

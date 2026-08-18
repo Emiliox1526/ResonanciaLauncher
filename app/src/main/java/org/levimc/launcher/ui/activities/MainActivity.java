@@ -1153,10 +1153,10 @@ import okhttp3.OkHttpClient;
             }
         }
 
-        if (!PlayStoreValidator.isMinecraftFromPlayStore(this)) {
-            trace.warning("Launch cancelled", "Minecraft is not verified as Play Store install");
+        if (version.isInstalled && !PlayStoreValidator.isMinecraftInstalled(this)) {
+            trace.warning("Launch cancelled", "No installed Minecraft package was detected");
             binding.launchButton.setEnabled(true);
-            PlayStoreValidationDialog.showNotFromPlayStoreDialog(this);
+            PlayStoreValidationDialog.showNotInstalledDialog(this);
             return;
         }
 

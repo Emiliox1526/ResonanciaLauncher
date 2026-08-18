@@ -10,6 +10,7 @@ import android.os.SystemClock
 import android.util.Log
 import org.levimc.launcher.core.versions.GameVersion
 import org.levimc.launcher.util.LauncherStorage
+import org.levimc.launcher.util.MinecraftPackageDetector
 import org.levimc.launcher.util.NativeBridgeHelper
 import org.levimc.launcher.util.NativeImageGuard
 import java.io.File
@@ -30,7 +31,7 @@ class GamePackageManager private constructor(
     private val nativeLibDir: String
     private val applicationInfo: ApplicationInfo
 
-    private val knownPackages = arrayOf(MinecraftLauncher.MC_PACKAGE_NAME)
+    private val knownPackages = MinecraftPackageDetector.KNOWN_PACKAGE_NAMES
 
     private val requiredLibs = arrayOf(
         "libc++_shared.so",
@@ -62,15 +63,26 @@ class GamePackageManager private constructor(
 
     init {
         report("GamePackageManager init started")
-        val packageName = detectGamePackage() ?: throw IllegalStateException("Minecraft not found")
-        report("Detected Minecraft package: $packageName")
-        packageContext = context.createPackageContext(
-            packageName,
-            Context.CONTEXT_IGNORE_SECURITY or Context.CONTEXT_INCLUDE_CODE
-        )
+        val packageName = detectGamePackage()
+        if (packageName != null) {
+            report("Detected Minecraft package: $packageName")
+            packageContext = context.createPackageContext(
+                packageName,
+                Context.CONTEXT_IGNORE_SECURITY or Context.CONTEXT_INCLUDE_CODE
+            )
+        } else if (version != null && !version.isInstalled) {
+            report("No system Minecraft package found; using imported APK")
+            packageContext = context
+        } else {
+            throw IllegalStateException("Minecraft not found")
+        }
+
+        val resolvedPackageName = packageName
+            ?: version?.packageName
+            ?: MinecraftLauncher.MC_PACKAGE_NAME
         
         if (version != null && !version.isInstalled) {
-            applicationInfo = MinecraftLauncher(context).createFakeApplicationInfo(version, MinecraftLauncher.MC_PACKAGE_NAME)
+            applicationInfo = MinecraftLauncher(context).createFakeApplicationInfo(version, resolvedPackageName)
             nativeLibDir = applicationInfo.nativeLibraryDir
         } else {
             applicationInfo = packageContext.applicationInfo
@@ -86,6 +98,8 @@ class GamePackageManager private constructor(
     }
 
     private fun detectGamePackage(): String? {
+        version?.packageName?.takeIf { isPackageInstalled(it) }?.let { return it }
+        MinecraftPackageDetector.findPrimary(context)?.packageName?.let { return it }
         return knownPackages.firstOrNull { isPackageInstalled(it) }
     }
 
@@ -644,6 +658,9 @@ class GamePackageManager private constructor(
     fun getApplicationInfo(): ApplicationInfo = applicationInfo
 
     fun getVersionName(): String? {
+        if (version != null && !version.isInstalled && !version.versionCode.isNullOrBlank()) {
+            return version.versionCode
+        }
         return try {
             context.packageManager.getPackageInfo(packageContext.packageName, 0).versionName
         } catch (e: Exception) {

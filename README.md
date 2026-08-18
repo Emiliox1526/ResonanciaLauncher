@@ -1,21 +1,21 @@
 <div align="center">
 
-![LeviLauncher Logo](https://avatars.githubusercontent.com/u/78095377?s=200&v=4)
+# ResonanciaLauncher
 
-# LeviLauncher
+**Fork of [LeviLaunchroid](https://github.com/LiteLDev/LeviLaunchroid) for Resonancia Minecraft**
 
-![Banner](https://camo.githubusercontent.com/bd7bd77cb422a267057d9863095b239b096d4f46dc831a37b45867a9acfad697/68747470733a2f2f63617073756c652d72656e6465722e76657263656c2e6170702f6170693f747970653d576176696e6726636f6c6f723d74696d654772616469656e74266865696768743d33303026616e696d6174696f6e3d66616465496e2673656374696f6e3d68656164657226746578743d4c6576694d4326666f6e7453697a653d313230)
-
-**A lightweight Android launcher for Minecraft: Bedrock Edition**
-
-[![GitHub Release](https://img.shields.io/github/v/release/LiteLDev/LeviLaunchroid?style=flat-square&color=blue)](https://github.com/LiteLDev/LeviLaunchroid/releases)
-[![License: Apache 2.0](https://img.shields.io/github/license/LiteLDev/LeviLaunchroid)](https://github.com/LiteLDev/LeviLaunchroid/blob/main/LICENSE)
-[![Issues](https://img.shields.io/github/issues/LiteLDev/LeviLaunchroid?style=flat-square&color=red)](https://github.com/LiteLDev/LeviLaunchroid/issues)
-[![Stars](https://img.shields.io/github/stars/LiteLDev/LeviLaunchroid?style=flat-square&color=yellow)](https://github.com/LiteLDev/LeviLaunchroid)
-[![Downloads](https://img.shields.io/github/downloads/LiteLDev/LeviLaunchroid/total.svg)](https://github.com/LiteLDev/LeviLaunchroid/releases)
-[![Android](https://img.shields.io/badge/Android-9.0%2B-green?style=flat-square&logo=android)](https://www.android.com/)
+Detects the Minecraft Bedrock copy already installed on the device. Google Play Store is **not** required as the installer source.
 
 </div>
+
+---
+
+## What changed in this fork
+
+- Launch no longer fails if Minecraft was installed outside Play Store (sideload, another store, or a backup restore).
+- The launcher scans installed apps for Minecraft Bedrock (`com.mojang.minecraftpe` and other copies that look like Minecraft).
+- Imported APK instances can launch even if there is no system Minecraft package.
+- Original project: [LiteLDev/LeviLaunchroid](https://github.com/LiteLDev/LeviLaunchroid) (Apache 2.0).
 
 ---
 
@@ -43,7 +43,7 @@ Before installing LeviLauncher, ensure your device meets the following minimum s
 - **Device Architecture:** ARM64 (v8a)
 - **RAM:** Minimum 1 GB available RAM (2 GB or more recommended)
 - **Storage:** At least 2 GB of available storage for Minecraft and game data
-- **License Requirement:** You must own a licensed copy of Minecraft Bedrock Edition purchased from Google Play
+- **License Requirement:** You must already have Minecraft Bedrock Edition installed on the device (any installer) or import an APK instance
 
 > **Note:** For optimal performance and stability, we recommend Android 9.0 or higher with at least 3 GB of available RAM and 5 GB of free storage.
 
@@ -53,18 +53,18 @@ Before installing LeviLauncher, ensure your device meets the following minimum s
 
 ### Prerequisites
 
-Before proceeding with LeviLauncher installation, ensure that you have the official Minecraft Bedrock Edition app installed on your device from Google Play. This is required for LeviLauncher to function properly.
+Before proceeding, install Minecraft Bedrock on the device or have an official APK ready to import. The installer source does not have to be Google Play Store.
 
 ### Installation Steps
 
-1. Visit the [Releases Page](https://github.com/LiteLDev/LeviLaunchroid/releases) and download the latest APK build
+1. Visit the [Releases Page](https://github.com/Emiliox1526/ResonanciaLauncher/releases) and download `ResonanciaLauncher-1.0.0.apk`
 2. Open your device Settings and navigate to Security or Applications
 3. Enable "Unknown Sources" or "Allow installation from unknown sources" to permit APK installation
 4. Locate the downloaded APK file using your file manager and tap to install
 5. Grant the necessary permissions when prompted during installation
-6. Once installed, open LeviLauncher from your application drawer
+6. Once installed, open ResonanciaLauncher from your application drawer
 
-> **Important:** LeviLauncher requires a legitimate, licensed copy of Minecraft Bedrock Edition. Do not use this launcher with pirated or unauthorized versions of the game. Ensure your Minecraft license is valid and properly linked to your Microsoft account.
+> **Important:** ResonanciaLauncher is a launcher, not the game. You still need a Minecraft Bedrock installation (or an imported APK) on the device.
 
 ---
 

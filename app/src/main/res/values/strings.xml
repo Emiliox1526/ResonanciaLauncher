@@ -1,6 +1,6 @@
 <resources>
     <!-- Common -->
-    <string name="app_name">LeviLauncher</string>
+    <string name="app_name">ResonanciaLauncher</string>
     <string name="minecraft">Minecraft</string>
     <string name="launch">Launch</string>
     <string name="beta_badge">Beta</string>
@@ -410,15 +410,15 @@ Migration must complete before LeviLauncher can continue.</string>
     <string name="world_created_successfully">World created successfully</string>
     <string name="failed_to_create_world">Failed to create world</string>
 
-    <!-- Play Store Validation -->
-    <string name="minecraft_playstore_required_title">Play Store Version Required</string>
-    <string name="minecraft_playstore_required_message">This launcher works only with the official Minecraft app from the Google Play Store. Please install the Play Store version to continue.</string>
+    <!-- Installed Minecraft detection -->
+    <string name="minecraft_playstore_required_title">Minecraft Not Detected</string>
+    <string name="minecraft_playstore_required_message">This launcher needs a Minecraft Bedrock app already installed on the device. It does not require Google Play Store as the installer.</string>
     <string name="buy_minecraft">Get Minecraft</string>
     <string name="minecraft_not_installed_title">Minecraft Not Installed</string>
-    <string name="minecraft_not_installed_message">Minecraft isn’t installed on your device. Please install it from the Google Play Store to use this launcher.</string>
+    <string name="minecraft_not_installed_message">No Minecraft installation was found on this device. Install Minecraft or import an APK instance in the launcher.</string>
     <string name="install_minecraft">Install Minecraft</string>
-    <string name="genuine_badge_label">License not verified</string>
-    <string name="invalid_license_detected_toast">Non-genuine Minecraft detected. Ensure Minecraft is from Google Play Store</string>
+    <string name="genuine_badge_label">Minecraft not detected</string>
+    <string name="invalid_license_detected_toast">No Minecraft installation was detected on this device</string>
 
     <string name="full_mods_title">Mods </string>
     <string name="total_mods">Total Mods:</string>

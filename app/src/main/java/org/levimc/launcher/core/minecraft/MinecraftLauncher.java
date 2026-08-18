@@ -150,8 +150,7 @@ public class MinecraftLauncher {
 
     public static String getStorageProfileId(GameVersion version) {
         if (version == null) return LauncherStorage.INSTALLED_MINECRAFT_PROFILE_ID;
-        if (version.isInstalled) return LauncherStorage.INSTALLED_MINECRAFT_PROFILE_ID;
-        return LauncherStorage.sanitizeProfileId(version.directoryName);
+        return version.getStorageProfileId();
     }
 
     private void fillIntentWithStoragePaths(Intent sourceIntent, GameVersion version) {

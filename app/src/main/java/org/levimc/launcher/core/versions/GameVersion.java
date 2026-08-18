@@ -95,7 +95,11 @@ public class GameVersion implements Parcelable {
     };
 
     public String getStorageProfileId() {
-        if (isInstalled) return LauncherStorage.INSTALLED_MINECRAFT_PROFILE_ID;
+        if (isInstalled) {
+            return (packageName == null || packageName.trim().isEmpty())
+                    ? LauncherStorage.INSTALLED_MINECRAFT_PROFILE_ID
+                    : packageName;
+        }
         return LauncherStorage.sanitizeProfileId(directoryName);
     }
 }

@@ -19,6 +19,7 @@ import org.levimc.launcher.ui.dialogs.CustomAlertDialog;
 import org.levimc.launcher.ui.dialogs.LibsRepairDialog;
 import org.levimc.launcher.util.ApkUtils;
 import org.levimc.launcher.util.LauncherStorage;
+import org.levimc.launcher.util.MinecraftPackageDetector;
 import org.levimc.launcher.util.NativeImageGuard;
 
 import java.io.BufferedInputStream;
@@ -339,18 +340,18 @@ public class VersionManager {
         File baseDir = LauncherStorage.getMinecraftRoot(context);
 
         PackageManager pm = context.getPackageManager();
-        try {
-            PackageInfo pi = pm.getPackageInfo(MinecraftLauncher.MC_PACKAGE_NAME, 0);
+        for (PackageInfo pi : MinecraftPackageDetector.findInstalledPackages(context)) {
             File versionDir = getVersionDirForPackage(baseDir, pi.packageName);
             if (!versionDir.exists()) versionDir.mkdirs();
-            
+
             File gamesDir = LauncherStorage.getProfileGameDataDir(context, pi.packageName);
             if (!gamesDir.exists()) gamesDir.mkdirs();
 
+            String profileId = MinecraftPackageDetector.profileIdFor(pi.packageName);
             String appLabel = String.valueOf(pi.applicationInfo.loadLabel(pm));
             boolean hasSoFiles = hasSoFilesInDir(new File(pi.applicationInfo.nativeLibraryDir));
             VersionProfileMetadata metadata = loadMetadata(
-                    LauncherStorage.INSTALLED_MINECRAFT_PROFILE_ID,
+                    profileId,
                     VersionProfileMetadataStore.Defaults.installed(pi.packageName, pi.versionName)
             );
             syncInstalledMetadata(pi.packageName, pi.versionName, metadata);
@@ -378,7 +379,6 @@ public class VersionManager {
             gv.launchVertically = metadata.launchVertically;
 
             installedVersions.add(gv);
-        } catch (PackageManager.NameNotFoundException ignored) {
         }
 
         File[] dirs = baseDir.listFiles(File::isDirectory);
@@ -387,6 +387,7 @@ public class VersionManager {
             for (File dir : dirs) {
                 File apk = new File(dir, "base.apk.levi");
                 if (!apk.exists()) continue;
+                if (isInstalledPackageDirectory(dir.getName())) continue;
 
                 GameVersion gv = getGameVersion(dir);
                 gv.needsRepair = false;
@@ -397,9 +398,20 @@ public class VersionManager {
         restoreSelectedVersion();
     }
 
+    private boolean isInstalledPackageDirectory(String directoryName) {
+        if (directoryName == null || directoryName.isEmpty()) return false;
+        for (GameVersion installed : installedVersions) {
+            if (directoryName.equals(installed.packageName) || directoryName.equals(installed.directoryName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void syncInstalledMetadata(String packageName, String versionName, VersionProfileMetadata metadata) {
-        boolean needsSync = !LauncherStorage.INSTALLED_MINECRAFT_PROFILE_ID.equals(metadata.profileId)
-                || !LauncherStorage.INSTALLED_MINECRAFT_PROFILE_ID.equals(metadata.directoryName)
+        String profileId = MinecraftPackageDetector.profileIdFor(packageName);
+        boolean needsSync = !profileId.equals(metadata.profileId)
+                || !profileId.equals(metadata.directoryName)
                 || !safeValue(metadata.versionName, "").equals(versionName)
                 || !metadata.installed
                 || !safeValue(metadata.packageName, "").equals(packageName);
@@ -407,13 +419,13 @@ public class VersionManager {
             return;
         }
         try {
-            File metadataDir = LauncherStorage.getProfileMetadataDir(context, LauncherStorage.INSTALLED_MINECRAFT_PROFILE_ID);
+            File metadataDir = LauncherStorage.getProfileMetadataDir(context, profileId);
             metadataStore.update(
                     metadataDir,
                     VersionProfileMetadataStore.Defaults.installed(packageName, versionName),
                     current -> {
-                        current.profileId = LauncherStorage.INSTALLED_MINECRAFT_PROFILE_ID;
-                        current.directoryName = LauncherStorage.INSTALLED_MINECRAFT_PROFILE_ID;
+                        current.profileId = profileId;
+                        current.directoryName = profileId;
                         current.versionName = versionName;
                         current.installed = true;
                         current.packageName = packageName;
@@ -425,8 +437,8 @@ public class VersionManager {
                     }
             );
         } catch (IOException ignored) {
-            metadata.profileId = LauncherStorage.INSTALLED_MINECRAFT_PROFILE_ID;
-            metadata.directoryName = LauncherStorage.INSTALLED_MINECRAFT_PROFILE_ID;
+            metadata.profileId = profileId;
+            metadata.directoryName = profileId;
             metadata.versionName = versionName;
             metadata.installed = true;
             metadata.packageName = packageName;
@@ -562,7 +574,10 @@ public class VersionManager {
 
     private String getMetadataDirectoryName(GameVersion version) {
         if (version == null) return LauncherStorage.INSTALLED_MINECRAFT_PROFILE_ID;
-        return version.isInstalled ? LauncherStorage.INSTALLED_MINECRAFT_PROFILE_ID : version.directoryName;
+        if (version.isInstalled) {
+            return MinecraftPackageDetector.profileIdFor(version.packageName);
+        }
+        return version.directoryName;
     }
 
     private interface GameVersionMutator {
